@@ -19,6 +19,10 @@ const askNewQuestion = asyncErrorWrapper(async (req, res, next) => {
 
 const getAllQuestions = asyncErrorWrapper(async (req, res, next) => {
     const questions = await Question.find()
+    .populate({
+        path: "user",
+        select: "name"
+    })
 
     return res.status(200).json({
         success: true,
@@ -30,6 +34,18 @@ const getSingleQuestion = asyncErrorWrapper(async (req, res, next) => {
     const { id } = req.params
 
     const question = await Question.findById(id)
+    .populate({
+        path: "answers",
+        populate: {
+            path: "user",
+            select: "name"
+        },
+        select: ["content", "user", "createdAt"]
+    })
+    .populate({
+        path: "user",
+        select: "name"
+    })
 
     return res.status(200).json({
         success: true,

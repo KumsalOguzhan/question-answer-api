@@ -11,7 +11,7 @@ const getAccessToRoute = (req, res, next) => {
 
     if (!isTokenIncluded(req)) {
         return next(
-            new CustomError("You are not authorized to access this route", 401)
+            new CustomError("You are not authorized to access this route token not included", 401)
         )
     }
 
